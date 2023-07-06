@@ -1,25 +1,43 @@
 from selenium.webdriver.common.by import By
 from behave import given, when, then
 from time import sleep
+from selenium.webdriver.support import expected_conditions as EC
+
+PRIVACY_NOTICE = (By.XPATH, "//a[@href='https://www.amazon.com/privacy']")
 
 
-@given('Open Amazon product {product_id} page')
-def open_amazon_product(context, product_id):
-    context.driver.get(f'https://www.amazon.com/dp/{product_id}/')
-    sleep(2)
+@given('Open Amazon T&C page')
+def open_amazon_TC_page(context):
+    context.driver.wait.until(EC.url_contains('https://www.amazon.com/gp/help/customer/'))
+    context.driver.refresh()
 
 
-@then('Verify user can click colors')
-def verify_can_click_colors(context):
-    expected_colors = ['Light Wash', 'Black', 'Blue Over Dye', 'Rinsed']
-    actual_colors = []
+@given('Store original windows')
+def store_original_window(context):
+    context.original_window = context.driver.current_window_handler
+    print('Original:', context.original_window)
+    print('All windows:', context.driver.window_handles)
 
-    colors = context.driver.find_elements(By.CSS_SELECTOR, "#variation_color_name li")
+    @when('Click on Amazon Privacy Notice link')
+    def click_on_amazon_privacy_notice_link(context):
+        context.driver.find_element(*PRIVACY_NOTICE).click()
 
-    for color in colors[:4]:
-        color.click()
-        current_color = context.driver.find_element(By.CSS_SELECTOR, "#variation_color_name .selection").text
-        actual_colors += [By.CSS_SELECTOR, "#variation_color_name .selection"]
+        @when('Switch to the newly opened window')
+        def switch_newly_opened_window(context):
+            context.driver.wait.until(EC.new_window_is_opened)
+            all_windows = context.driver.windows_handle
+            print('After window opened, all windows:', all_windows)
+            context.driver.switch_to.window(all_windows[1])
 
-    assert expected_colors == actual_colors, \
-        f'Expected colors {expected_colors} did not match actual {actual_colors}'
+            @when('Verify Amazon Privacy Notice page is opened')
+            def verify_privacy_notice_opened(context):
+                context.driver.wait.until(EC.url_contains('https://www.amazon.com/gp/help/'))
+
+                @then('User can close new window')
+                def close_new_window(context):
+                    context.driver.close()
+                    print('After window closed, all windows:', all_windows)
+
+                    @then('switch back to original')
+                    def switch_back_to_original(context):
+                        context.driver.switch_to.window(context.original_window)

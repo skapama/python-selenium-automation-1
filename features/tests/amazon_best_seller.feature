@@ -4,7 +4,7 @@ Feature: Tests for best seller links
 
   Scenario: User sees best seller links
       Given Open amazon best seller page
-      Then Verify there are 6 links
+      Then Verify there are 5 links
 
 
 

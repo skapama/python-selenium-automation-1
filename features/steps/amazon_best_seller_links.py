@@ -5,7 +5,7 @@ from time import sleep
 
 SEARCH_FILED = (By.ID, 'twotabsearchtextbox')
 SEARCH_BTN = (By.ID, 'nav-search-submit-button')
-BEST_SELLER_LINKS = (By.CSS_SELECTOR, '._p13n-zg-nav-tab-all_style_zg-tabs__EYPLq div')
+BEST_SELLER_LINKS = (By.CSS_SELECTOR, 'div#zg_header a')
 
 
 @given('Open amazon best seller page')
@@ -23,10 +23,10 @@ def verify_link_count(context, expected_amount):
     expected_amount = int(expected_amount)
     print('After conversion: => ', type(expected_amount))
 
-    links_count = len(context.driver.find_elements(*BEST_SELLER_LINKS)) # 6
+    links_count = len(context.driver.find_elements(*BEST_SELLER_LINKS)) # 5
     print(type(links_count))
 
-    # 6 == 6
+    # 5 == 5
     assert links_count == expected_amount, f'Expected {expected_amount} links, but got {links_count}'
 
 

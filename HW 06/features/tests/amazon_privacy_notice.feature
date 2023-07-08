@@ -1,4 +1,4 @@
-# Created by kapam at 7/6/2023
+# Created by kapam at 7/8/2023
 Feature: Amazon privacy and notice tests
 
  Scenario: User can navigate to privacy and conditions link

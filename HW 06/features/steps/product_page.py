@@ -6,10 +6,13 @@ from selenium.webdriver.support import expected_conditions as EC
 SIGNIN_HEADER = (By.XPATH, "//h1[@class='a-spacing-small']")
 PRIVACY_NOTICE = (By.XPATH, "//a[@href='https://www.amazon.com/privacy']")
 ORDERS_BTN = (By.ID, 'nav-orders')
+#ORDER_BUTTON = (By.CSS_SELECTOR, 'a[href="/gp/css/order-history?ref_=nav_orders_first"]')
 POPUP_SIGNIN_BTN = (By.CSS_SELECTOR, "#nav-signin-tooltip .nav-action-signin-button")
 PRIVACY_NOTICE_BTN = (By.XPATH, "//a[contains(@href, 'ap_signin_notification_condition_of_use')]")
 
 @given('Open amazon main page')
+# def click_orders(context):
+#     context.driver.find_element(*ORDERS_BTN)
 def open_amazon_page(context):
     context.driver.get('https://www.amazon.com')
 
@@ -35,7 +38,7 @@ def click_on_amazon_privacy_notice_link(context):
 
 @then('Store original windows')
 def store_original_window(context):
-    context.original_window = context.driver.current_window_handle
+    context.original_window = context.driver.current_window_handle #r
     print('Original:', context.original_window)
     print('All windows:', context.driver.window_handles)
 @then('Click on Amazon Privacy Notice link')
@@ -44,7 +47,7 @@ def click_on_amazon_privacy_notice_link(context):
 @then('Switch to the newly opened window')
 def switch_newly_opened_window(context):
     context.driver.wait.until(EC.new_window_is_opened)
-    all_windows = context.driver.window_handles
+    all_windows = context.driver.window_handles #/s #s
     print('After window opened, all windows:', all_windows)
     context.driver.switch_to.window(all_windows[1])
 

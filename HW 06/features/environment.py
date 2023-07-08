@@ -2,7 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from webdriver_manager.chrome import ChromeDriverManager
-from App.application import Application
+#from App.application import Application
 from selenium.webdriver.support.wait import WebDriverWait
 
 
@@ -18,7 +18,7 @@ def browser_init(context):
     context.driver.implicitly_wait(4)
     context.driver.wait = WebDriverWait(context.driver, 10)
 
-    context.app = Application(context.driver)
+    #context.app = Application(context.driver)
 
 
 def before_scenario(context, scenario):

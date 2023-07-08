@@ -3,6 +3,7 @@ Feature: Amazon privacy and notice tests
 
  Scenario: User can navigate to privacy and conditions link
    Given Open amazon main page
+   #When Click Orders
    When Click on button from SignIn popup
    Then Verify Sign In page opens
    And Click on Amazon Privacy & Condition Notice link
